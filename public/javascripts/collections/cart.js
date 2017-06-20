@@ -48,9 +48,6 @@ var Cart = Backbone.Collection.extend({
     this.update()
     this.trigger('cartUpdated');
   },
-  decrementItem: function(item) {
-    console.log(item);
-  },
   update: function() {
     this.setQuantity().setTotal();
   },
