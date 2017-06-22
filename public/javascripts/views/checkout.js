@@ -18,8 +18,8 @@ var CheckoutView = Backbone.View.extend({
     router.navigate('/menu', { trigger: true });
   },
   render: function() {
-    App.$el.html(this.$el);
     this.renderItems();
+    App.$el.html(this.$el);
   },
   renderItems: function() {
     this.$el.html(this.template({
