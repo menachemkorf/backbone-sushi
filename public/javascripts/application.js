@@ -5,11 +5,12 @@ var App = {
     this.createCart();
   },
   createCart: function() {
-    this.cart = new Cart();
-
-    if (this.cart.view) {
+    if (this.cart) {
       this.cart.view.remove();
+      this.cart.countView.remove();
     }
+
+    this.cart = new Cart();
 
     this.cart.view = new CartView({
       collection: this.cart
@@ -18,24 +19,27 @@ var App = {
     this.cart.countView = new CartCountView({
       collection: this.cart
     });
-    this.off('addToCart');
     this.on('addToCart', this.cart.addItem.bind(this.cart))
   },
   showProducts: function() {
-    if (this.reset) {
+    if (this.resetCart) {
       this.createCart();
-      this.reset = false;
+      this.resetCart = false;
     }
-    this.productsView = new ProductsView({ collection: this.products });
+    this.productsView = new ProductsView({
+      collection: this.products
+    });
   },
   showProductDetails: function(id) {
-    this.productDetailsView = new ProductDetailsView({ model: this.products.get(+id) });
+    this.productDetailsView = new ProductDetailsView({
+      model: this.products.get(+id)
+    });
   },
   checkout: function() {
-    if (this.cart.view) {
-      this.cart.view.remove();
-    }
-    this.cart.view = new CheckoutView({ collection: this.cart });
+    this.cart.view.remove();
+    this.cart.view = new CheckoutView({
+      collection: this.cart
+    });
   },
 };
 

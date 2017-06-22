@@ -6,12 +6,12 @@ var CartView = Backbone.View.extend({
     'click .checkout': 'checkout'
   },
   render: function() {
+    this.delegateEvents();
     this.$el.html(this.template({
       items: this.collection.toJSON(),
       total: this.collection.getTotal()
     }));
     $('main').prepend(this.$el);
-    this.delegateEvents();
   },
   updateView: function() {
     if (this.collection.length) {
@@ -30,7 +30,6 @@ var CartView = Backbone.View.extend({
     router.navigate('/checkout', { trigger: true });
   },
   initialize: function() {
-    this.stopListening(this.collection, 'cartUpdated reset');
     this.listenTo(this.collection, 'cartUpdated reset', this.updateView);
   }
 });

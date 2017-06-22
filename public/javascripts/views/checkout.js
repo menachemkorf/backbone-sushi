@@ -8,16 +8,20 @@ var CheckoutView = Backbone.View.extend({
   cancelOrder: function(e) {
     e.preventDefault();
 
-    App.reset = true;
+    App.resetCart = true;
     router.navigate('/menu', { trigger: true });
   },
   submitOrder: function(e) {
     e.preventDefault();
 
-    App.reset = true;
+    App.resetCart = true;
     router.navigate('/menu', { trigger: true });
   },
   render: function() {
+    App.$el.html(this.$el);
+    this.renderItems();
+  },
+  renderItems: function() {
     this.$el.html(this.template({
       total: this.collection.getTotal()
     }));
@@ -25,11 +29,9 @@ var CheckoutView = Backbone.View.extend({
     this.collection.each(function(model) {
       this.$('tbody').append(new CheckoutItemView({model: model}).$el);
     }.bind(this));
-
-    App.$el.html(this.$el);
   },
   initialize: function() {
     this.render();
-    this.listenTo(this.collection, 'cartUpdated', this.render);
+    this.listenTo(this.collection, 'cartUpdated', this.renderItems);
   }
 });
